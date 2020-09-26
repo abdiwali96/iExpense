@@ -37,6 +37,19 @@ class Expenses: ObservableObject{
     }
 }
 
+struct priceText: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(.white)
+            .frame(width: 50, height: 30)
+            .padding()
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            
+        
+    }
+}
+
+
 struct ContentView: View {
     @ObservedObject var expenses = Expenses()
     @State private var showingAddExpense = false
@@ -53,13 +66,16 @@ struct ContentView: View {
                             }
 
                             Spacer()
-                            Text("$\(item.amount)")
+                            Text("£\(item.amount)")
+                                .modifier(priceText())
+                
                         }
                 }
                 .onDelete(perform: removeItems)
+                
             }
             .navigationBarTitle("iExpense")
-            .navigationBarItems(trailing:
+            .navigationBarItems(leading: EditButton(), trailing:
                 Button(action: {
                     self.showingAddExpense = true
                 }) {
